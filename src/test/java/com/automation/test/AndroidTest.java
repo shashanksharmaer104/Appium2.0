@@ -25,12 +25,12 @@ class AndroidTest {
         options.setApp(System.getProperty("user.dir") + "/apps/Android-MyDemoAppRN.1.3.0.build-244.apk");
 
         AndroidDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
-        Thread.sleep(5000);
+        //Thread.sleep(5000);
 
         driver.findElement(AppiumBy.accessibilityId("open menu")).click();
 
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(e -> e.findElement(By.xpath("//android.view.ViewGroup[@content-desc='menu item log in']")).isDisplayed());
+        //new WebDriverWait(driver, Duration.ofSeconds(5))
+        //        .until(e -> e.findElement(By.xpath("//android.view.ViewGroup[@content-desc='menu item log in']")).isDisplayed());
 
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc='menu item log in']")).click();
 
