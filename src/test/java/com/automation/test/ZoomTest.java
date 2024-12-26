@@ -81,25 +81,27 @@ public class ZoomTest {
 
         WebElement element = driver.findElement(By.xpath("//XCUIElementTypeButton[@name='tab bar option menu']"));
 
-        //Get element coordinates
-        Point location = element.getLocation();
-        Dimension size = element.getSize();
-        Point centerOfElement = getCenterOfElement(location, size);
+        Point centerOfElement = getCenterOfElement(element.getLocation(), element.getSize());
 
-        //Define finger and sequences
         PointerInput finger1 = new PointerInput(PointerInput.Kind.TOUCH, "finger1");
-        Sequence sequence = new Sequence(finger1, 1)
+        Sequence sequence1 = new Sequence(finger1, 1)
                 .addAction(finger1.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), centerOfElement))
                 .addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
-                .addAction(new Pause(finger1, Duration.ofMillis(100)))
-                .addAction((finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg())))
-                .addAction(new Pause(finger1, Duration.ofMillis(100)))
-                .addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
-                .addAction(new Pause(finger1, Duration.ofMillis(100)))
-                .addAction((finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg())));
+                .addAction(new Pause(finger1, Duration.ofMillis(200)))
+                .addAction(finger1.createPointerMove(Duration.ofMillis(200), PointerInput.Origin.viewport(), centerOfElement.getX() + 200, centerOfElement.getY() - 200))
+                .addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+        PointerInput finger2 = new PointerInput(PointerInput.Kind.TOUCH, "finger2");
+        Sequence sequence2 = new Sequence(finger2, 1)
+                .addAction(finger2.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), centerOfElement))
+                .addAction(finger2.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                .addAction(new Pause(finger2, Duration.ofMillis(200)))
+                .addAction(finger2.createPointerMove(Duration.ofMillis(200), PointerInput.Origin.viewport(), centerOfElement.getX() - 200, centerOfElement.getY() + 200))
+                .addAction(finger2.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
 
         //Perform double tap
-        driver.perform(Collections.singletonList(sequence));
+        driver.perform(Arrays.asList(sequence1, sequence2));
 
         Thread.sleep(2000);
 
